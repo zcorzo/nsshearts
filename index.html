@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sound Board</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin: 24px; background: #000; color:#fff; }
+    h1 { margin-bottom: 16px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 18px; }
+    button { background:none; border:none; padding:0; cursor:pointer; }
+    img { width:100%; height:180px; object-fit:contain; }
+    button:active img { transform: scale(0.97); }
+  </style>
+</head>
+<body>
+
+<h1>Sound Board</h1>
+
+<div class="grid">
+  <button data-sound="sounds/boog.mp3"><img src="img/boog.png" alt="boog"></button>
+  <button data-sound="sounds/butt.mp3"><img src="img/butt.png" alt="butt"></button>
+  <button disabled title="Coming soon"><img src="img/luv.png" alt="luv"></button>
+  <button data-sound="sounds/pee.mp3"><img src="img/pee.png" alt="pee"></button>
+  <button data-sound="sounds/sleep.mp3"><img src="img/sleep.png" alt="sleep"></button>
+</div>
+
+<script>
+const cache = new Map();
+function playSound(src){
+  let a = cache.get(src);
+  if(!a){
+    a = new Audio(src);
+    a.preload = "auto";
+    cache.set(src,a);
+  }
+  a.currentTime = 0;
+  a.play();
+}
+document.addEventListener("click", e=>{
+  const btn = e.target.closest("button[data-sound]");
+  if(!btn) return;
+  playSound(btn.dataset.sound);
+});
+</script>
+
+</body>
+</html>
